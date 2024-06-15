@@ -30,6 +30,11 @@ app.use(cors(
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser())
 // Routes
+//simple hello 
+app.get('/', (req, res) => {
+    res.send('Hello, World!');
+});
+
 app.use('/api/v1/post', postRouter);
 app.use('/api/v2/user', userRouter);
 app.use('/api/v3/story',router)
