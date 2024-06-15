@@ -1,4 +1,14 @@
 {
+  "name": "socialmediab",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",
     "cloudinary": "^2.2.0",
@@ -14,17 +24,5 @@
     "nodemailer": "^6.9.13",
     "nodemon": "^3.1.2",
     "uuid": "^10.0.0"
-  },
-  "name": "e-commerce",
-  "version": "1.0.0",
-  "main": "server.js",
-  "devDependencies": {},
-  "scripts": {
-    "dev":"nodemon SocialMediaB/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "heroku-postbuild":"NPM_CONFIG_PRODUCTION=false && npm install --prefix fronted && npm run build --prefix fronted"
-  },
-  "author": "",
-  "license": "ISC",
-  "description": ""
+  }
 }

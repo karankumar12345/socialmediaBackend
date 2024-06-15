@@ -46,5 +46,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy":"https://socialmedia-app-five.vercel.app"
+  "proxy":{}
 }
