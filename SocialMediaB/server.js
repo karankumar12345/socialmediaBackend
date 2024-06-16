@@ -5,7 +5,7 @@ const postRouter = require('./routes/post');
 const userRouter=require("./routes/User");
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
-dotenv.config({ path: 'SocialMediaB/config/config.env' });
+dotenv.config({ path: '../SocialMediaB/config/config.env' });
 const cloudinary = require("cloudinary");
 const router = require('./routes/Story');
 
