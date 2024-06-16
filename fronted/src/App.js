@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import Header from './components/header/Header';
 import {Toaster} from "react-hot-toast"
@@ -21,6 +20,7 @@ import ResetPassword from './components/ResetPassword/ResetPassword';
 import SavePost from './components/SavedPost/SavePost';
 import UserStory from './components/Story/UserStory';
 import StoryComponent from './components/Story/Story';
+import Found from './components/NotFound/Found';
 
 
 function App() {
@@ -40,7 +40,8 @@ const { isAuthenticated }= useSelector((state)=>state.user)
         }
     
         <Routes>
-        <Route path="/" element={isAuthenticated ? <Home /> : <Login />} />
+          <Route path="/" element={<Found/>} />
+        <Route path="/home" element={isAuthenticated ? <Home /> : <Login/>} />
         <Route path="/profile" element={isAuthenticated ? <Account /> : <Login />} />
           <Route path="/login"element={isAuthenticated ? <Home /> : <Login />} />
           <Route path="/newpost" element={isAuthenticated ? <Newpost /> : <Login />} />
