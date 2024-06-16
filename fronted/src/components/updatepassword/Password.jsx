@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Typography, Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { updatePassword } from "../../Actions/User";
-import { useAlert } from "react-alert";
+
 import toast from "react-hot-toast";
 
 const UpdatePassword = () => {
@@ -32,7 +32,7 @@ const UpdatePassword = () => {
       toast.success(message)
       dispatch({type:"CLEAR_ERRORS"})
     }
-  }, [dispatch, error, alert, message]);
+  }, [dispatch, error,  message]);
 
   return (
     <div className="updatePassword">
