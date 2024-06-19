@@ -75,12 +75,20 @@ const login = async (req, res) => {
       });
     }
 
-    const token = await user.generateToken();
-    res.status(200).cookie("token", token, { httpOnly: true }).json({
-      success: true,
-      user,
-      token,
-    });
+    const token = user.generateToken();
+
+        const options = {
+            expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
+            httpOnly: true,
+        };
+
+
+        res.status(200).cookie("token", token, options).json({
+          success: true,
+          user,
+          token,
+          message: "Logged In Successfully"
+      });
   } catch (error) {
     res.status(500).json({
       success: false,

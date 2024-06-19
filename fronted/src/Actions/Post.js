@@ -1,8 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
-
-import axios from 'axios';
-
-// Action creators
+import axios from 'axios';  // Assuming axios is correctly imported from './axiosuser'
 
 
 export const likeSuccess = createAction('like/likeSuccess');
@@ -58,11 +55,20 @@ export const DELETE_POST_FAILURE = createAction("createpost/DELETEPostFailure");
 export const clearError = createAction('clearErrors');
 export const clearMessage = createAction('clearMessage');
 
+const api = axios.create({
+  baseURL: "http://localhost:4000",
+  headers: {
+    'Content-Type': 'application/json',
+
+
+  },
+  withCredentials: true // Add this line
+});
 // Like a post
 export const likePost = (id) => async (dispatch) => {
     try {
         dispatch(likeRequest());
-        const { data } = await axios.get(`/api/v1/post/like/${id}`, {
+        const { data } = await api.get(`/api/v1/post/like/${id}`, {
             headers: {
                 "Content-Type": "application/json",
             }
@@ -76,7 +82,7 @@ export const likePost = (id) => async (dispatch) => {
 export const followUser = (id) => async (dispatch) => {
     try {
         dispatch(followingRequest());
-        const { data } = await axios.get(`/api/v2/user/follow/${id}`, {
+        const { data } = await api.get(`/api/v2/user/follow/${id}`, {
             headers: {
                 "Content-Type": "application/json",
             }
@@ -92,7 +98,7 @@ export const followUser = (id) => async (dispatch) => {
 export const addCommentPost = (id, comment) => async (dispatch) => {
     try {
         dispatch(commentRequest());
-        const { data } = await axios.put(`/api/v1/post/comment/${id}`, { comment }, {
+        const { data } = await api.put(`/api/v1/post/comment/${id}`, { comment }, {
             headers: {
                 "Content-Type": "application/json",
             }
@@ -108,7 +114,7 @@ export const addCommentPost = (id, comment) => async (dispatch) => {
 export const deleteCommentPost = (id, commentId) => async (dispatch) => {
     try {
         dispatch(deletecommentRequest());
-        const { data } = await axios.delete(`/api/v1/post/comment/${id}`, {
+        const { data } = await api.delete(`/api/v1/post/comment/${id}`, {
             data: { commentId },
             headers: {
                 "Content-Type": "application/json",
@@ -125,7 +131,7 @@ export const deleteCommentPost = (id, commentId) => async (dispatch) => {
 export const getMyPosts = () => async (dispatch) => {
     try {
         dispatch(mypostRequest());
-        const { data } = await axios.get(`/api/v1/post/mypost`);
+        const { data } = await api.get(`/api/v1/post/mypost`);
         dispatch(mypostSuccess(data.posts));
     } catch (error) {
         const errorMessage = error.response?.data?.message || "An error occurred";
@@ -138,7 +144,7 @@ export const createPost = (image, caption) => async (dispatch) => {
   try {
     dispatch(CREATE_POST_REQUEST());
 
-    const { data } = await axios.post("/api/v1/post/upload", {
+    const { data } = await api.post("/api/v1/post/upload", {
         image,
         caption,
     },{
@@ -157,7 +163,7 @@ export const UpdatePost = (caption,id) => async (dispatch) => {
   try {
     dispatch(UPDATE_POST_REQUEST());
 
-    const { data } = await axios.put(`/api/v1/post/like/${id}`, {
+    const { data } = await api.put(`/api/v1/post/like/${id}`, {
         
         caption,
     },{
@@ -181,7 +187,7 @@ export const DeletePost = (id) => async (dispatch) => {
         
        );
 
-    const { data } = await axios.delete(`/api/v1/post/like/${id}`,{
+    const { data } = await api.delete(`/api/v1/post/like/${id}`,{
         headers: {
             "Content-Type": "application/json",
         }
@@ -203,7 +209,7 @@ export const DeletePost = (id) => async (dispatch) => {
 export const userPost = (id) => async (dispatch) => {
     try {
         dispatch(userpostRequest());
-        const { data } = await axios.get(`/api/v1/post/userpost/${id}`);
+        const { data } = await api.get(`/api/v1/post/userpost/${id}`);
         dispatch(userpostSuccess(data.posts));
     } catch (error) {
         const errorMessage = error.response?.data?.message || "An error occurred";
@@ -214,7 +220,7 @@ export const forgetPasswordEmail = (email) => async (dispatch) => {
     try {
       dispatch({ type:'usertokenRequest' });
   
-      const { data } = await axios.post('/api/v2/user/forget/password', { email });
+      const { data } = await api.post('/api/v2/user/forget/password', { email });
   
       dispatch({ type: 'usertokenSuccess', payload: data.message });
     } catch (error) {
@@ -228,7 +234,7 @@ export const resetPassword = (token,password) => async (dispatch) => {
     try {
       dispatch({ type:'userresetRequest' });
   
-      const { data } = await axios.post(`/api/v2/user/password/reset/${token}`, { password });
+      const { data } = await api.post(`/api/v2/user/password/reset/${token}`, { password });
   
       dispatch({ type: 'userresetSuccess', payload: data.message });
     } catch (error) {
@@ -242,7 +248,7 @@ export const Saved= (postId,userId) => async (dispatch) => {
     try {
       dispatch(savedRequest());
   
-      const { data } = await axios.get(`/api/v2/user/save/${postId}`, { userId},{
+      const { data } = await api.get(`/api/v2/user/save/${postId}`, { userId},{
         headers: {
           "Content-Type": "application/json",
       }
@@ -259,7 +265,7 @@ export const Saved= (postId,userId) => async (dispatch) => {
   export const saveds = () => async (dispatch) => {
     try {
         dispatch(savedsRequest());
-        const { data } = await axios.get(`/api/v2/user/saved`);
+        const { data } = await api.get(`/api/v2/user/saved`);
         dispatch(savedsSuccess(data.likedSavedPosts));
     } catch (error) {
         const errorMessage = error.response?.data?.message || "An error occurred";

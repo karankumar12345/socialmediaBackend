@@ -1,10 +1,12 @@
 // store.js
 import { configureStore } from '@reduxjs/toolkit';
-import {allUsersReducer,getuserProfile,postOfFollowingReducer,userReducer} from './reducers/userReducer';
+import {allUsersReducer,postOfFollowingReducer,userReducer} from './reducers/userReducer';
 
 
 import  { Saved, comment, likeunlike, mypost, postcreate, userpost, } from './reducers/Postreducer';
 import storyReducer from './reducers/story';
+import { getuserProfile } from './reducers/postfollwing';
+
 
 
 

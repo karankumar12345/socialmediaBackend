@@ -1,4 +1,5 @@
-import axios from "axios";
+import axios from 'axios';
+
 
 // Action types
 export const LOGIN_REQUEST = "user/LoginRequest";
@@ -36,17 +37,31 @@ export const USERS_P_SUCCESS = "users/UserPROFILESuccess";
 export const USERS_P_FAILURE = "users/UserPROFILEFailure";
 export const CLEAR_ERRORS = "ClearErrors";
 
+const api = axios.create({
+  baseURL: "http://localhost:4000",
+  headers: {
+    'Content-Type': 'application/json',
+
+
+  },
+  withCredentials: true // Add this line
+});
 
 // Action creators
 export const loginUser = (email, password) => async (dispatch) => {
   try {
     dispatch({ type: LOGIN_REQUEST });
 
-    const { data } = await axios.post("/api/v2/user/login", { email, password });
+    const response = await api.post("/api/v2/user/login", { email, password });
+    const { data } = response;
 
-    dispatch({ type: LOGIN_SUCCESS, payload: data.user });
+    if (data) {
+      dispatch({ type: LOGIN_SUCCESS, payload: data.user });
+    } else {
+      throw new Error("No data found in response");
+    }
   } catch (error) {
-    dispatch({ type: LOGIN_FAILURE, payload: error.response.data.message });
+    dispatch({ type: LOGIN_FAILURE, payload: error.response?.data?.message || error.message });
   }
 };
 
@@ -54,11 +69,16 @@ export const registerUser = (userData) => async (dispatch) => {
   try {
     dispatch({ type: REGISTER_REQUEST });
 
-    const { data } = await axios.post("/api/v2/user/register", userData);
+    const response = await api.post("/api/v2/user/register", userData);
+    const { data } = response;
 
-    dispatch({ type: REGISTER_SUCCESS, payload: data.user });
+    if (data) {
+      dispatch({ type: REGISTER_SUCCESS, payload: data.user });
+    } else {
+      throw new Error("No data found in response");
+    }
   } catch (error) {
-    dispatch({ type: REGISTER_FAILURE, payload: error.response.data.message });
+    dispatch({ type: REGISTER_FAILURE, payload: error.response?.data?.message || error.message });
   }
 };
 
@@ -66,11 +86,16 @@ export const loadUser = () => async (dispatch) => {
   try {
     dispatch({ type: LOAD_USER_REQUEST });
 
-    const { data } = await axios.get("/api/v2/user/me");
+    const response = await api.get("/api/v2/user/me");
+    const { data } = response;
 
-    dispatch({ type: LOAD_USER_SUCCESS, payload: data.user });
+    if (data) {
+      dispatch({ type: LOAD_USER_SUCCESS, payload: data.user });
+    } else {
+      throw new Error("No data found in response");
+    }
   } catch (error) {
-    dispatch({ type: LOAD_USER_FAILURE, payload: error.response.data.message });
+    dispatch({ type: LOAD_USER_FAILURE, payload: error.response?.data?.message || error.message });
   }
 };
 
@@ -78,11 +103,11 @@ export const logoutUser = () => async (dispatch) => {
   try {
     dispatch({ type: LOGOUT_USER_REQUEST });
 
-    await axios.get("/api/v2/user/logout");
+    await api.get("/api/v2/user/logout");
 
     dispatch({ type: LOGOUT_USER_SUCCESS });
   } catch (error) {
-    dispatch({ type: LOGOUT_USER_FAILURE, payload: error.response.data.message });
+    dispatch({ type: LOGOUT_USER_FAILURE, payload: error.response?.data?.message || error.message });
   }
 };
 
@@ -90,11 +115,16 @@ export const getFollowingPosts = () => async (dispatch) => {
   try {
     dispatch({ type: POST_OF_FOLLOWING_REQUEST });
 
-    const { data } = await axios.get("/api/v1/post/posts");
+    const response = await api.get("/api/v1/post/posts");
+    const { data } = response;
 
-    dispatch({ type: POST_OF_FOLLOWING_SUCCESS, payload: data.posts });
+    if (data) {
+      dispatch({ type: POST_OF_FOLLOWING_SUCCESS, payload: data.posts });
+    } else {
+      throw new Error("No data found in response");
+    }
   } catch (error) {
-    dispatch({ type: POST_OF_FOLLOWING_FAILURE, payload: error.response.data.message });
+    dispatch({ type: POST_OF_FOLLOWING_FAILURE, payload: error.response?.data?.message || error.message });
   }
 };
 
@@ -102,11 +132,16 @@ export const getAllUsers = (name = "") => async (dispatch) => {
   try {
     dispatch({ type: ALL_USERS_REQUEST });
 
-    const { data } = await axios.get(`/api/v2/user/users?name=${name}`);
+    const response = await api.get(`/api/v2/user/users?name=${name}`);
+    const { data } = response;
 
-    dispatch({ type: ALL_USERS_SUCCESS, payload: data.users });
+    if (data) {
+      dispatch({ type: ALL_USERS_SUCCESS, payload: data.users });
+    } else {
+      throw new Error("No data found in response");
+    }
   } catch (error) {
-    dispatch({ type: ALL_USERS_FAILURE, payload: error.response.data.message });
+    dispatch({ type: ALL_USERS_FAILURE, payload: error.response?.data?.message || error.message });
   }
 };
 
@@ -114,51 +149,70 @@ export const clearErrors = () => (dispatch) => {
   dispatch({ type: CLEAR_ERRORS });
 };
 
-
 export const updatePassword = (oldPassword, newPassword) => async (dispatch) => {
   try {
     dispatch({ type: PASSWORD_USER_REQUEST });
 
-    const { data } = await axios.put("/api/v2/user/update/passowrd", { oldPassword, newPassword });
+    const response = await api.put("/api/v2/user/update/passowrd", { oldPassword, newPassword });
+    const { data } = response;
 
-    dispatch({ type: PASSWORD_USER_SUCCESS, payload: data.message });
+    if (data) {
+      dispatch({ type: PASSWORD_USER_SUCCESS, payload: data.message });
+    } else {
+      throw new Error("No data found in response");
+    }
   } catch (error) {
-    dispatch({ type: PASSWORD_USER_FAILURE, payload: error.response.data.message });
+    dispatch({ type: PASSWORD_USER_FAILURE, payload: error.response?.data?.message || error.message });
   }
 };
-
 
 export const updateProfile = (userData) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_USER_REQUEST });
 
-    const { data } = await axios.put("/api/v2/user/update/profile", userData);
+    const response = await api.put("/api/v2/user/update/profile", userData);
+    const { data } = response;
 
-    dispatch({ type: UPDATE_USER_SUCCESS, payload: data.message });
+    if (data) {
+      dispatch({ type: UPDATE_USER_SUCCESS, payload: data.message });
+    } else {
+      throw new Error("No data found in response");
+    }
   } catch (error) {
-    dispatch({ type: UPDATE_USER_FAILURE, payload: error.response.data.message });
+    dispatch({ type: UPDATE_USER_FAILURE, payload: error.response?.data?.message || error.message });
   }
 };
+
 export const DELETE = () => async (dispatch) => {
   try {
     dispatch({ type: DELETE_USER_REQUEST });
 
-    const { data } = await axios.delete("/api/v2/user/delete/me"
+    const response = await api.delete("/api/v2/user/delete/me");
+    const { data } = response;
 
-
-    )
-    dispatch({ type: DELETE_USER_SUCCESS, payload: data.message });
+    if (data) {
+      dispatch({ type: DELETE_USER_SUCCESS, payload: data.message });
+    } else {
+      throw new Error("No data found in response");
+    }
   } catch (error) {
-    dispatch({ type: DELETE_USER_FAILURE, payload: error.response.data.message });
+    dispatch({ type: DELETE_USER_FAILURE, payload: error.response?.data?.message || error.message });
   }
 };
+
 export const userProfile = (id) => async (dispatch) => {
   try {
-      dispatch({type:USERS_P_REQUEST});
-      const { data } = await axios.get(`/api/v2/user/user/${id}`);
-      dispatch({type:USERS_P_SUCCESS,payload:data.user});
-  } catch (error) {
+    dispatch({ type: USERS_P_REQUEST });
 
-      dispatch({type:USERS_P_FAILURE,payload:error.response.data.message});
+    const response = await api.get(`/api/v2/user/user/${id}`);
+    const { data } = response;
+
+    if (data) {
+      dispatch({ type: USERS_P_SUCCESS, payload: data.user });
+    } else {
+      throw new Error("No data found in response");
+    }
+  } catch (error) {
+    dispatch({ type: USERS_P_FAILURE, payload: error.response?.data?.message || error.message });
   }
 };

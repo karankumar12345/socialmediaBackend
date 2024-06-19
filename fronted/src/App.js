@@ -5,7 +5,7 @@ import {Toaster} from "react-hot-toast"
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './components/Login/Login';
 import { useDispatch, useSelector } from 'react-redux';
-import { loadUser } from './Actions/User';
+// import { loadUser } from './Actions/User';
 import Home from './components/Home/Home';
 import Account from './components/Account/Account';
 import Newpost from './components/NewPost/Newpost';
@@ -21,12 +21,18 @@ import SavePost from './components/SavedPost/SavePost';
 import UserStory from './components/Story/UserStory';
 import StoryComponent from './components/Story/Story';
 import Found from './components/NotFound/Found';
+import { getAllUsers, loadUser } from './Actions/User';
 
 
 function App() {
 const dispatch = useDispatch();
 useEffect(()=>{
   dispatch(loadUser())
+  dispatch(getAllUsers())
+ 
+ 
+  
+  
 },[])
 const { isAuthenticated }= useSelector((state)=>state.user)
   return (
@@ -40,9 +46,9 @@ const { isAuthenticated }= useSelector((state)=>state.user)
         }
     
         <Routes>
-          <Route path="/" element={<Found/>} />
-        <Route path="/home" element={isAuthenticated ? <Home /> : <Login/>} />
-        <Route path="/profile" element={isAuthenticated ? <Account /> : <Login />} />
+         
+        <Route path="/" element={isAuthenticated?<Home/>:<Login/>} />
+       <Route path="/profile" element={isAuthenticated ? <Account /> : <Login />} />
           <Route path="/login"element={isAuthenticated ? <Home /> : <Login />} />
           <Route path="/newpost" element={isAuthenticated ? <Newpost /> : <Login />} />
           <Route path='/register' element={isAuthenticated ? <Account /> : <Register />}/>
@@ -56,10 +62,10 @@ const { isAuthenticated }= useSelector((state)=>state.user)
          <Route path="/stories" element={isAuthenticated?<StoryComponent/>:<Login/>}/>
           <Route
           path="/password/reset/:token"
-          element={isAuthenticated ? <UpdatePassword /> : <ResetPassword />}
-        />
+          element={isAuthenticated ? <UpdatePassword /> : <ResetPassword />} 
+         
 
-          {/* notfound */}
+          />
           <Route path="*" element={<NotFound/>} />
         </Routes>
       </Router>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "./login.css";
-import { Typography, Button } from "@mui/material";
+import "./login.css"; // Ensure this CSS file exists and is properly styled
+import { Typography, Button } from "@mui/material"; // Assuming MUI v5
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../Actions/User";
@@ -11,20 +11,23 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
 
-  const { loading, error,message } = useSelector((state) => state.user);
+  // Select relevant states from Redux store
+  const { loading, error, message } = useSelector((state) => state.user);
 
+  // Effect to display toast messages for errors and success
   useEffect(() => {
     if (error) {
-      toast.error(error);
+      toast.error(error); // Display error message
     }
-    if(message){
-        toast.success(message);
+    if (message) {
+      toast.success(message); // Display success message
     }
-  }, [error,message]);
+  }, [error, message]); // Watch for changes in error or message
 
+  // Function to handle login form submission
   const loginHandler = (e) => {
-    e.preventDefault();
-    dispatch(loginUser(email, password));
+    e.preventDefault(); // Prevent default form submission
+    dispatch(loginUser(email, password)); // Dispatch loginUser action
   };
 
   return (
@@ -34,6 +37,7 @@ const Login = () => {
           Social App
         </Typography>
 
+        {/* Email input field */}
         <input
           type="email"
           placeholder="Email"
@@ -42,6 +46,7 @@ const Login = () => {
           onChange={(e) => setEmail(e.target.value)}
         />
 
+        {/* Password input field */}
         <input
           type="password"
           placeholder="Password"
@@ -50,14 +55,17 @@ const Login = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
 
+        {/* Forgot password link */}
         <Link to="/forgot/password">
           <Typography>Forgot Password?</Typography>
         </Link>
 
-        <Button type="submit" disabled={loading}>
-          {loading ? "Logging in..." : "Login"}
+        {/* Login button with loading state */}
+        <Button type="submit">
+        Submit
         </Button>
 
+        {/* Link to register new user */}
         <Link to="/register">
           <Typography>New User?</Typography>
         </Link>

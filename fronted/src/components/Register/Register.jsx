@@ -87,7 +87,7 @@ function Register() {
 
    
 
-        <Button type="submit" disabled={loading}>
+        <Button type="submit" >
           {loading ? "Registering in..." : "Register"}
         </Button>
 

@@ -84,5 +84,3 @@ const storyReducer = createReducer(initialState, (builder) => {
 });
 
 export default storyReducer;
-
-

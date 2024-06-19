@@ -52,7 +52,8 @@ const UpdatePassword = () => {
 
         <input
           type="password"
-          placeholder="New Password"
+          placeholder="New 
+          Password"
           required
           className="updatePasswordInputs"
           value={newPassword}

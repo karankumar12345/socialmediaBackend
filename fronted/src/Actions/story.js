@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios'; 
 import { createAction } from '@reduxjs/toolkit';
 export const STORY_UPLOAD_REQUEST = "story/upload_request";
 export const STORY_UPLOAD_SUCCESS = "story/upload_success";
@@ -16,11 +16,20 @@ export const likeSuccess = createAction('like/likeSuccess');
 export const likeFailure = createAction('like/likeFailure');
 export const likeRequest = createAction('like/likeRequest');
 
+const api = axios.create({
+  baseURL: "http://localhost:4000",
+  headers: {
+    'Content-Type': 'application/json',
+
+
+  },
+  withCredentials: true // Add this line
+});
 export const getSingleUserStory = (userId) => async (dispatch) => {
   try {
     dispatch({ type: User_story_REQUEST });
 
-    const { data } = await axios.get(`/api/v3/story/stories/${userId}`);
+    const { data } = await api.get(`/api/v3/story/stories/${userId}`);
 
     dispatch({ type: User_story_SUCCESS, payload: data.stories });
   } catch (error) {
@@ -32,7 +41,7 @@ export const allStory = () => async (dispatch) => {
   try {
     dispatch({ type: ALL_STORY_REQUEST });
 
-    const { data } = await axios.get("/api/v3/story/stories");
+    const { data } = await api.get("/api/v3/story/stories");
 
     dispatch({ type: ALL_STORY_SUCCESS, payload: data.stories });
   } catch (error) {
@@ -44,7 +53,7 @@ export const storyUpload = (imageBase64,userId,comment) => async (dispatch) => {
   try {
     dispatch({ type: STORY_UPLOAD_REQUEST });
 
-    const { data } = await axios.post(
+    const { data } = await api.post(
       "/api/v3/story/uploadstory",
       { image: imageBase64,userId,comment }, // Wrap the base64 string in an object
       {
@@ -62,7 +71,7 @@ export const storyUpload = (imageBase64,userId,comment) => async (dispatch) => {
 export const likeStory = (id) => async (dispatch) => {
   try {
       dispatch(likeRequest());
-      const { data } = await axios.get(`/api/v3/story/like/${id}`, {
+      const { data } = await api.get(`/api/v3/story/like/${id}`, {
           headers: {
               "Content-Type": "application/json",
           }
