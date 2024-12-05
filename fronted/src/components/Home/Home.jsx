@@ -37,20 +37,7 @@ function Home() {
     <Loader />
   ) : (
     <>
-    <div className="story">
-      <Link to="/stories"> <img className='userstory' src={user.avatar.url} alt="" /> <p className='para'>Create Story</p></Link>
-      {users && users.length > 0 ? (
-        users.map((user) => (
-          <div className="alluser" key={user._id}>
-            <Link to={`/stories/${user._id}`}><img className='userstory' src={user.avatar.url} alt={user.name} /></Link>
-
-            <p>{user.name}</p>
-          </div>
-        ))
-      ) : (
-        <Typography>No Users Yet</Typography>
-      )}
-      </div>
+ 
       <div className="home">
         <div className="homeleft">
           {posts && posts.length > 0 ? (
